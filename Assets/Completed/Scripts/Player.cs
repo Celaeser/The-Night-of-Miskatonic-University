@@ -128,19 +128,48 @@ public class Player : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            animator.SetTrigger("TurnUp");
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PCUP"))
+            {
+                animator.SetTrigger("TurnUp");
+            }            
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            animator.SetTrigger("TurnDown");
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PCDOWN"))
+            {
+                animator.SetTrigger("TurnDown");
+            }
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            animator.SetTrigger("TurnLeft");
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PCLEFT"))
+            {
+                animator.SetTrigger("TurnLeft");
+            }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            animator.SetTrigger("TurnRight");
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PCRIGHT"))
+            {
+                animator.SetTrigger("TurnRight");
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.W) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCUP"))
+        {
+            animator.SetTrigger("Stop");
+        }
+        if (Input.GetKeyUp(KeyCode.S) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCDOWN"))
+        {
+            animator.SetTrigger("Stop");
+        }
+        if (Input.GetKeyUp(KeyCode.A) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCLEFT"))
+        {
+            animator.SetTrigger("Stop");
+        }
+        if (Input.GetKeyUp(KeyCode.D) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCRIGHT"))
+        {
+            animator.SetTrigger("Stop");
         }
 
         if (Input.GetKey(KeyCode.W) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCUP"))
@@ -161,12 +190,107 @@ public class Player : MonoBehaviour {
         }
 
 
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle"))
+        //    {
+        //        animator.SetTrigger("Move");
+        //    }
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
+        //    {
+        //        animator.SetTrigger("TurnUp");
+        //        animator.SetTrigger("Move");
+        //    }
+
+        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle"))
+        //    //{
+        //    //    animator.SetTrigger("Move");
+        //    //}
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUP"))
+        //    {
+        //        transform.Translate(Vector3.up * Time.deltaTime * MoveSpeed);
+        //    }
+
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle"))
+        //    {
+        //        animator.SetTrigger("Move");
+        //    }
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
+        //    {
+        //        animator.SetTrigger("TurnDown");
+        //        animator.SetTrigger("Move");
+        //    }
+        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle"))
+        //    //{
+        //    //    animator.SetTrigger("Move");
+        //    //}
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDOWN"))
+        //    {
+        //        transform.Translate(Vector3.down * Time.deltaTime * MoveSpeed);
+        //    }
+
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle"))
+        //    {
+        //        animator.SetTrigger("Move");
+        //    }
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
+        //    {
+        //        animator.SetTrigger("TurnLeft");
+        //        animator.SetTrigger("Move");
+        //    }
+        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle"))
+        //    //{
+        //    //    animator.SetTrigger("Move");
+        //    //}
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCLEFT"))
+        //    {
+        //        transform.Translate(Vector3.left * Time.deltaTime * MoveSpeed);
+        //    }
+
+        //}
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
+        //    {
+        //        animator.SetTrigger("Move");
+        //    }
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle") ||
+        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle"))
+        //    {
+        //        animator.SetTrigger("TurnRight");
+        //        animator.SetTrigger("Move");
+        //    }
+        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
+        //    //{
+        //    //    animator.SetTrigger("Move");
+        //    //}
+        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCRIGHT"))
+        //    {
+        //        transform.Translate(Vector3.right * Time.deltaTime * MoveSpeed);
+        //    }
+
+        //}
+
+
         //if (Input.GetKeyDown(KeyCode.J) && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerIdle"))
-        if (Input.GetKeyDown(KeyCode.J) && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerIdle"))
-        {
-            animator.SetTrigger("playerChop");
-            //collision.collider.SendMessage("TakeDamage");
-        }
+        //if (Input.GetKeyDown(KeyCode.J) && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerIdle"))
+        //{
+        //    animator.SetTrigger("playerChop");
+        //    //collision.collider.SendMessage("TakeDamage");
+        //}
     }
 
     //受到攻击

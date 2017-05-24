@@ -39,4 +39,9 @@ public class UIManager : MonoBehaviour {
         SceneManager.LoadScene("main");
 
     }
+
+    private void OnGUI()
+    {
+        //GUI.Button = beginButton;
+    }
 }

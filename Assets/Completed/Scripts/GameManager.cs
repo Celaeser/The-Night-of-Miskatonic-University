@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour {
     //当前关卡
     public int level = 1;
     public GameObject player;
-    public GameObject masked;
     //public GameObject shadow;
 
     private Text HPText;
@@ -54,7 +53,6 @@ public class GameManager : MonoBehaviour {
     private void InitGame()
     {
         player = GameObject.Instantiate(player, new Vector3(1, 1, 0), Quaternion.identity);
-        masked = GameObject.Instantiate(masked, new Vector3(0, 0, 0), Quaternion.identity);
         //GameObject.Instantiate(shadow, new Vector3(1, 1, 0), Quaternion.identity);
         HPText = GameObject.Find("HPText").GetComponent<Text>();
         LevelText = GameObject.Find("LevelText").GetComponent<Text>();
