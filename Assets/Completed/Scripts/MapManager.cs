@@ -219,7 +219,5 @@ public class MapManager : MonoBehaviour
             Destroy(enemy[i]);
         }
         Destroy(exit);
-
-        GameObject.FindGameObjectWithTag("Masked").GetComponent<FOVMesh>().ResetWalls();
     }
 }

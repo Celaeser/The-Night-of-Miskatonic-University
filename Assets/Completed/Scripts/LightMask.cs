@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LightMask : MonoBehaviour {
-    public float range = 3;
+    public float range = 3.0F;
     public int levelOfDetails = 1;
-    public LayerMask[] raycastLayer;
+    public LayerMask raycastLayer;
     public bool staticLight = false;
     public float stability = 1.0F;
     public float changeSpeed = 1.0F;
@@ -23,23 +23,11 @@ public class LightMask : MonoBehaviour {
     private Vector3[] verts;
     private int[] tris;
     private Vector2[] uvs;
-    private List<GameObject> sawWalls;
-
     private int mask;
 
-    public void ResetWalls()
-    {
-        sawWalls.Clear();
-    }
 
     private void ReshapeLight()
     {
-        foreach (var wall in sawWalls)
-        {
-            wall.layer = 8;
-        }
-        sawWalls.Clear();
-
         index = 0;
         triIndex = 0;
         worldPos = go.transform.parent.transform.position;
@@ -52,12 +40,6 @@ public class LightMask : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(worldPos, direction, width, mask);
             if (hit.collider != null)
             {
-                var wall = hit.collider.gameObject;
-                if (hit.distance + 1 < range)
-                {
-                    wall.layer = 9;
-                    sawWalls.Add(wall);
-                }
                 verts[index] = new Vector3(hit.point.x - worldPos.x, hit.point.y - worldPos.y, worldPos.z);
             }
             else
@@ -95,19 +77,13 @@ public class LightMask : MonoBehaviour {
     {
         go = gameObject;
         go.GetComponent<MeshFilter>().mesh = mesh = new Mesh();
-        sawWalls = new List<GameObject>();
 
         lod = levelOfDetails;
-        width = range;
+        mask = raycastLayer;
 
         verts = new Vector3[(360 / lod) + 1];
         tris = new int[(360 / lod) * 3];
         uvs = new Vector2[verts.Length];
-
-        foreach (LayerMask lm in raycastLayer)
-        {
-            mask |= lm;
-        }
 
         if (staticLight)
         {
@@ -118,11 +94,6 @@ public class LightMask : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        foreach (var wall in sawWalls)
-        {
-            wall.layer = 9;
-        }
-
         if (!staticLight)
         {
             if (stability != 1.0F)
@@ -135,6 +106,7 @@ public class LightMask : MonoBehaviour {
 
                 width = range * Mathf.Sin(Mathf.Deg2Rad * frames * 3) * (1 - stability) + range * stability;
             }
+            
             ReshapeLight();
         }
     }

@@ -13,18 +13,37 @@ public class Player : MonoBehaviour {
     private int sodaHp = 1;
     private int foodHp = 1;
     private int sodaSan = 1;
-    
+    public GameObject trueCamera = null;
+    [SerializeField]
+    private GameObject back = null;
+    [SerializeField]
+    private GameObject lightObj = null;
+
+    private bool keyDown = false;
+
     //private Vector2 targetPosition = new Vector2(1, 1);
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-	}
+        trueCamera = GameObject.FindGameObjectWithTag("MainCamera");
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        walk();        
+        walk();
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (!keyDown)
+            {
+                keyDown = true;
+                trueCamera.GetComponent<DrawPixelTexture>().SwitchLight();
+                lightObj.GetComponent<LightCtr>().ResetLit();
+                lightObj.SetActive(!lightObj.activeSelf);
+            }
+        }
+        else keyDown = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -39,9 +58,6 @@ public class Player : MonoBehaviour {
                 collision.collider.SendMessage("TakeDamage");
             }
         }
-        
-
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -106,25 +122,6 @@ public class Player : MonoBehaviour {
     private void walk()
     {
         transform.rotation = Quaternion.identity;
-        //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerIdle"))
-        //{
-        //    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        //    {
-        //        transform.Translate(Vector3.up * Time.deltaTime * MoveSpeed);
-        //    }
-        //    if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        //    {
-        //        transform.Translate(Vector3.down * Time.deltaTime * MoveSpeed);
-        //    }
-        //    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        //    {
-        //        transform.Translate(Vector3.left * Time.deltaTime * MoveSpeed);
-        //    }
-        //    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        //    {
-        //        transform.Translate(Vector3.right * Time.deltaTime * MoveSpeed);
-        //    }
-        //}
 
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -175,122 +172,26 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.W) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCUP"))
         {
             transform.Translate(Vector3.up * Time.deltaTime * MoveSpeed);
+            back.transform.rotation = Quaternion.identity;
+            back.transform.Rotate(new Vector3(0, 0, 180));
         }
         if (Input.GetKey(KeyCode.S) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCDOWN"))
         {
             transform.Translate(Vector3.down * Time.deltaTime * MoveSpeed);
+            back.transform.rotation = Quaternion.identity;
         }
         if (Input.GetKey(KeyCode.A) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCLEFT"))
         {
             transform.Translate(Vector3.left * Time.deltaTime * MoveSpeed);
+            back.transform.rotation = Quaternion.identity;
+            back.transform.Rotate(new Vector3(0, 0, 270));
         }
         if (Input.GetKey(KeyCode.D) && animator.GetCurrentAnimatorStateInfo(0).IsName("PCRIGHT"))
         {
             transform.Translate(Vector3.right * Time.deltaTime * MoveSpeed);
+            back.transform.rotation = Quaternion.identity;
+            back.transform.Rotate(new Vector3(0, 0, 90));
         }
-
-
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle"))
-        //    {
-        //        animator.SetTrigger("Move");
-        //    }
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
-        //    {
-        //        animator.SetTrigger("TurnUp");
-        //        animator.SetTrigger("Move");
-        //    }
-
-        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle"))
-        //    //{
-        //    //    animator.SetTrigger("Move");
-        //    //}
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUP"))
-        //    {
-        //        transform.Translate(Vector3.up * Time.deltaTime * MoveSpeed);
-        //    }
-
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle"))
-        //    {
-        //        animator.SetTrigger("Move");
-        //    }
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
-        //    {
-        //        animator.SetTrigger("TurnDown");
-        //        animator.SetTrigger("Move");
-        //    }
-        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle"))
-        //    //{
-        //    //    animator.SetTrigger("Move");
-        //    //}
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCDOWN"))
-        //    {
-        //        transform.Translate(Vector3.down * Time.deltaTime * MoveSpeed);
-        //    }
-
-        //}
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle"))
-        //    {
-        //        animator.SetTrigger("Move");
-        //    }
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
-        //    {
-        //        animator.SetTrigger("TurnLeft");
-        //        animator.SetTrigger("Move");
-        //    }
-        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle"))
-        //    //{
-        //    //    animator.SetTrigger("Move");
-        //    //}
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCLEFT"))
-        //    {
-        //        transform.Translate(Vector3.left * Time.deltaTime * MoveSpeed);
-        //    }
-
-        //}
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
-        //    {
-        //        animator.SetTrigger("Move");
-        //    }
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCUpIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCDownIdle") ||
-        //        animator.GetCurrentAnimatorStateInfo(0).IsName("PCLeftIdle"))
-        //    {
-        //        animator.SetTrigger("TurnRight");
-        //        animator.SetTrigger("Move");
-        //    }
-        //    //if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCRightIdle"))
-        //    //{
-        //    //    animator.SetTrigger("Move");
-        //    //}
-        //    if (animator.GetCurrentAnimatorStateInfo(0).IsName("PCRIGHT"))
-        //    {
-        //        transform.Translate(Vector3.right * Time.deltaTime * MoveSpeed);
-        //    }
-
-        //}
-
-
-        //if (Input.GetKeyDown(KeyCode.J) && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerIdle"))
-        //if (Input.GetKeyDown(KeyCode.J) && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerIdle"))
-        //{
-        //    animator.SetTrigger("playerChop");
-        //    //collision.collider.SendMessage("TakeDamage");
-        //}
     }
 
     //受到攻击
